@@ -3,13 +3,12 @@ version: '3'
 services: 
   
   challenge1-project:
-    # restart: always
-    build: ./challenge1-project
-    links:
-      - redis
-    # command: gunicorn fund.wsgi:application --bind 0.0.0.0:8000
-    # volumes:
-    #   - ./challenge1-project/Project/static:/djangoApp/Project/static_cdn/static_root
+    restart: always
+    build: 
+      context: ./challenge1-project
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./challenge1-project/static:/challenge1-app/static
     env_file:
       - ./.env
     expose:
@@ -22,9 +21,11 @@ services:
 
   nginx:
     restart: always
-    build: ./nginx
-    # volumes:
-    #   - ./crowd-funding-webapp/Project/static:/static
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./challenge1-project/static:/static
     ports:
       - '80:80'
   
