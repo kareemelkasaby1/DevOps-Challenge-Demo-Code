@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'rm -rf ~/app'"
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'mkdir ~/app'"
-                sh "rsync -i $DEPLOYKEY -pru ./* ec2-user@52.34.4.128:~/app"
+                sh "scp -i $DEPLOYKEY -pr ./* ec2-user@52.34.4.128:~/app"
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app; docker-compose up --build'"
 
                 // sh 'sleep 15'
