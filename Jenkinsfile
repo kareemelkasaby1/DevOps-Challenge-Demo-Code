@@ -11,6 +11,6 @@ pipeline {
         //         sh 'terraform apply -auto-approve'
         //     }
         // }
-        //hi tany l2aaa
+        //hi tany
     }
 }
