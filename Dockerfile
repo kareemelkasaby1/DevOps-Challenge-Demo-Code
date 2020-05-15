@@ -84,7 +84,7 @@ RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 RUN service docker start
 
-#open container Port
+#open container Portt
 EXPOSE 8080
 
 
