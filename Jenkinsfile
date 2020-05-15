@@ -11,6 +11,5 @@ pipeline {
         //         sh 'terraform apply -auto-approve'
         //     }
         // }
-        //kolo 3la kolo
     }
 }
