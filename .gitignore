@@ -1,2 +1,8 @@
 .vscode/*
 .idea/*
+
+creds
+
+promethios.pem
+
+inventory
