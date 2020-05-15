@@ -17,10 +17,12 @@ pipeline {
             }
         }
 
-    // stage('Run') {
-    //     steps {
-    //         sh 'terraform apply -auto-approve'
-    //     }
-    // }
+        stage('deploy') {
+            steps {
+                sh 'ssh ec2-user@52.34.4.128'
+                sh 'sleep 15'
+                sh 'logout'
+            }
+        }
     }
 }
