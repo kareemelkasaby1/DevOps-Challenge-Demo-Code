@@ -15,7 +15,7 @@ COPY . .
 # RUN python manage.py migrate
 EXPOSE 8000
 
-RUN python tests/test.py
+# RUN python tests/test.py
 
 CMD ["python", "hello.py"]
 
