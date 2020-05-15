@@ -37,7 +37,7 @@ RUN pip --version
 
 #################################
 # Install AWS CLI
-################################
+#################################
 RUN pip install awscli --upgrade --user
 
 # add aws cli location to path
