@@ -19,9 +19,7 @@ pipeline {
 
         stage('deploy') {
             steps {
-                sh 'eval `ssh-agent -s`'
-                sh "ssh-add $DEPLOYKEY"
-                sh 'ssh ec2-user@52.34.4.128'
+                sh "ssh -i $DEPLOYKEY ec2-user@52.34.4.128"
                 sh 'sleep 15'
                 sh 'logout'
             }
