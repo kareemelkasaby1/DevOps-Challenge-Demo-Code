@@ -19,9 +19,9 @@ pipeline {
 
         stage('deploy') {
             steps {
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128"
-                sh 'sleep 15'
-                sh 'logout'
+                sh "sudo scp -i $DEPLOYKEY . ec2-user@52.34.4.128:/app"
+                // sh 'sleep 15'
+                // sh 'exit'
             }
         }
     }
