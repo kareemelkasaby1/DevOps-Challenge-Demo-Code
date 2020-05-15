@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('conf') {
             steps {
-                sh 'ansible-playbook -i inventory playbook.yml'
+                sh 'docker-compose up --build'
             }
         }
         // stage('Run') {
@@ -11,6 +11,6 @@ pipeline {
         //         sh 'terraform apply -auto-approve'
         //     }
         // }
-        //hi tany
+
     }
 }
