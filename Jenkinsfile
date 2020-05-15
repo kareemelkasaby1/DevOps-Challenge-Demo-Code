@@ -21,11 +21,6 @@ pipeline {
                 }
             }
         }
-        post {
-            always {
-                sh 'docker-compose down -v'
-            }
-        }
 
     // stage('Run') {
     //     steps {
