@@ -19,7 +19,8 @@ pipeline {
 
         stage('deploy') {
             steps {
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'mkdir -f ~/app'"
+                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'rm -rf ~/app'"
+                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'mkdir ~/app'"
                 sh "sudo scp -i $DEPLOYKEY -pr ./* ec2-user@52.34.4.128:~/app"
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app; docker-compose up --build'"
 
