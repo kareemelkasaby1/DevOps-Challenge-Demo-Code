@@ -12,12 +12,7 @@ pipeline {
                 },
                 /* groovylint-disable-next-line SpaceAroundMapEntryColon */
                 'integration': {
-                    sh 'docker-compose up --build --force-recreate'
-                    sh 'rc=$?'
-                    sh 'docker-compose down'
-                    sh 'exit $rc'
-                    /* groovylint-disable-next-line DuplicateStringLiteral */
-                    sh 'docker-compose down'
+                    sh 'docker-compose up --build --no-start --force-recreate'
                 }
             }
         }
