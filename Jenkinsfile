@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('conf') {
             steps {
-                sh 'docker-compose up --build'
+                sh 'ansible-playbook -i inventory playbook.yml '
             }
         }
         // stage('Run') {
