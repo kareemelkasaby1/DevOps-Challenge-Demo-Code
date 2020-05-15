@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('conf') {
             steps {
-                sh 'ansible-playbook -i inventory playbook.yml '
+                sh 'echo 5ra'
             }
         }
         // stage('Run') {
