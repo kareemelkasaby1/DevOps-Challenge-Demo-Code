@@ -35,7 +35,7 @@ RUN pip3 install --upgrade pip
 RUN python3 -V
 RUN pip --version
 
-################################
+#################################
 # Install AWS CLI
 ################################
 RUN pip install awscli --upgrade --user
