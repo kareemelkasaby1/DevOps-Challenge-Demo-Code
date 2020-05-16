@@ -20,7 +20,7 @@ pipeline {
         stage('deploy') {
             steps {
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose down'"
-                sh 'sudo ssh-copy-id ec2-user@52.34.4.128'
+                sh 'sudo ssh-copy-id -i $DEPLOYKEY ec2-user@52.34.4.128'
                 // sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'rm -rf ~/app'"
                 // sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'mkdir ~/app'"
                 sh "rsync -i $DEPLOYKEY -rv --existing --dry-run --update ./* ec2-user@52.34.4.128:~/app"
