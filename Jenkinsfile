@@ -20,8 +20,8 @@ pipeline {
         stage('deploy') {
             steps {
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo ssh ec2-user@52.34.4.128 '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down)'"
-                sh "sudo ssh ec2-user@52.34.4.128 '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app'"
+                sh "sudo ssh ec2-user@52.34.4.128 '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down);echo hi'"
+                sh "sudo ssh ec2-user@52.34.4.128 '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app;echo hi'"
                 /* groovylint-disable-next-line LineLength */
                 sh "sudo rsync -rv --update -e 'ssh -p22' ./* ec2-user@52.34.4.128:~/app"
                 sh 'sudo scp -p ./.env ec2-user@52.34.4.128:~/app'
