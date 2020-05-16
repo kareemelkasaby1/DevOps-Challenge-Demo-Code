@@ -20,9 +20,7 @@ pipeline {
         stage('deploy') {
             steps {
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose down'"
-                // sh "sudo ssh-add -i $DEPLOYKEY ec2-user@52.34.4.128"
-                // sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'rm -rf ~/app'"
-                // sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'mkdir ~/app'"
+                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ -d '~/app' ] && mkdir ~/app'"
                 /* groovylint-disable-next-line LineLength */
                 sh "sudo rsync -rv --update -e 'ssh -p22' ./* ec2-user@52.34.4.128:~/app"
                 sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@52.34.4.128:~/app"
