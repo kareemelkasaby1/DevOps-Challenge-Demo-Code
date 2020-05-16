@@ -19,11 +19,11 @@ pipeline {
 
         stage('deploy') {
             steps {
-                if ("sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app'") {
+                if (sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app'") {
                     sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose down'"
                 }
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down)'"
+                // sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down)'"
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app'"
                 /* groovylint-disable-next-line LineLength */
                 sh "sudo rsync -rv --update -e 'ssh -p22' ./* ec2-user@52.34.4.128:~/app"
