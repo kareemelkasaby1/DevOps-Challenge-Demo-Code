@@ -23,7 +23,7 @@ pipeline {
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'mkdir ~/app'"
                 sh "sudo scp -i $DEPLOYKEY -pr ./* ec2-user@52.34.4.128:~/app"
                 sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@52.34.4.128:~/app"
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose up --build;exit'"
+                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose up --build -d;exit'"
 
                 // sh 'sleep 15'
                 // sh 'exit'
