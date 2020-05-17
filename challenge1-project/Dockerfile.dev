@@ -1,0 +1,23 @@
+FROM python:3.7-slim 
+
+USER root
+RUN python -m pip install --upgrade pip
+
+WORKDIR challenge1-app
+
+COPY ./requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+# RUN python manage.py makemigrations
+
+# RUN python manage.py migrate
+EXPOSE 8000
+
+# RUN python tests/test.py
+
+CMD ["python", "hello.py"]
+
+
+# CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
