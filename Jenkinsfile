@@ -40,14 +40,15 @@ pipeline {
         stage('deploy') {
             steps {
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@$PRODEC2IP '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down);echo hi'"
+                sh "sudo ssh -o StrictHostKeyChecking=no -i $DEPLOYKEY ec2-user@$PRODEC2IP '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down);echo hi'"
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@$PRODEC2IP '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app/challenge1-project/static;echo hi'"
+                sh "sudo ssh -o StrictHostKeyChecking=no -i $DEPLOYKEY ec2-user@$PRODEC2IP '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app/challenge1-project/static;echo hi'"
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo rsync -rv --update -e 'ssh -i $DEPLOYKEY' ./challenge1-project/static ec2-user@$PRODEC2IP:~/app/challenge1-project"
-                sh "sudo scp -i $DEPLOYKEY -p ./docker-compose.yml ec2-user@$PRODEC2IP:~/app"
-                sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@$PRODEC2IP:~/app"
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@$PRODEC2IP 'cd ~/app;sudo docker-compose up --build -d;exit'"
+                sh "sudo rsync -rv --update -e 'ssh -o StrictHostKeyChecking=no -i $DEPLOYKEY' ./challenge1-project/static ec2-user@$PRODEC2IP:~/app/challenge1-project"
+                /* groovylint-disable-next-line LineLength */
+                sh "sudo scp -o StrictHostKeyChecking=no -i $DEPLOYKEY -p ./docker-compose.yml ec2-user@$PRODEC2IP:~/app"
+                sh "sudo scp -o StrictHostKeyChecking=no -i $DEPLOYKEY -p ./.env ec2-user@$PRODEC2IP:~/app"
+                sh "sudo ssh -o StrictHostKeyChecking=no -i $DEPLOYKEY ec2-user@$PRODEC2IP 'cd ~/app;sudo docker-compose up --build -d;exit'"
             }
         }
     }
