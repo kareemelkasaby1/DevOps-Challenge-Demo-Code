@@ -25,7 +25,7 @@ pipeline {
                 sh 'docker build -t kareemelkasaby/challenge1-project:$SHA kareemelkasaby/challenge1-project:latest -f ./challenge1-project/Dockerfile.prod ./challenge1-project'
                 /* groovylint-disable-next-line LineLength */
                 sh 'docker build -t kareemelkasaby/challenge1-nginx:$SHA kareemelkasaby/challenge1-nginx:latest -f ./nginx/Dockerfile.prod ./nginx'
-                sh 'echo '$DOCKERHUB_PASS' | docker login -u '$DOCKERHUB_USER' --password-stdin'
+                sh "echo '$DOCKERHUB_PASS' | docker login -u '$DOCKERHUB_USER' --password-stdin"
                 sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-project:$SHA'
                 sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-project:latest'
                 sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-nginx:$SHA'
