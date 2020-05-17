@@ -1,7 +1,6 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
     /* groovylint-disable-next-line NoDef, UnusedVariable, VariableName, VariableTypeRequired */
-    def SHA = 'sh '$(git rev-parse HEAD)''
     agent any
     stages {
         stage('tests') {
@@ -21,6 +20,7 @@ pipeline {
 
         stage('beforeDeploy') {
             steps {
+                sh 'SHA=$(git rev-parse HEAD)'
                 /* groovylint-disable-next-line LineLength */
                 sh 'docker build -t kareemelkasaby/challenge1-project:$SHA kareemelkasaby/challenge1-project:latest -f ./challenge1-project/Dockerfile.prod ./challenge1-project'
                 /* groovylint-disable-next-line LineLength */
