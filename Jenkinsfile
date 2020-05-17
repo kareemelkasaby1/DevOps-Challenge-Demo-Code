@@ -44,7 +44,7 @@ pipeline {
                 /* groovylint-disable-next-line LineLength */
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@$EC2IP '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app/challenge1-project/static;echo hi'"
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo rsync -rv --update -e 'ssh -i $DEPLOYKEY' ./challenge1-project/static ec2-user@$EC2IP:~/app/challenge1-project/static"
+                sh "sudo rsync -rv --update -e 'ssh -i $DEPLOYKEY' ./challenge1-project/static ec2-user@$EC2IP:~/app/challenge1-project"
                 sh "sudo scp -i $DEPLOYKEY -p ./docker-compose.yml ec2-user@$EC2IP:~/app"
                 sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@$EC2IP:~/app"
                 sh "sudo ssh -i $DEPLOYKEY ec2-user@$EC2IP 'cd ~/app;sudo docker-compose up --build -d;exit'"
