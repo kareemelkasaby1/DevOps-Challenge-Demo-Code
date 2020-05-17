@@ -26,10 +26,10 @@ pipeline {
                 /* groovylint-disable-next-line LineLength */
                 sh 'SHA=$(cat /tmp/gitrev);docker build -t kareemelkasaby/challenge1-nginx:$SHA -t kareemelkasaby/nginx:latest -f ./nginx/Dockerfile.prod ./nginx'
                 sh "docker login -u '$DOCKERHUB_USER' -p '$DOCKERHUB_PASS'"
-                sh 'SHA=$(cat /tmp/gitrev);docker push kareemelkasaby/kareemelkasaby/challenge1-project:$SHA'
-                sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-project:latest'
-                sh 'SHA=$(cat /tmp/gitrev);docker push kareemelkasaby/kareemelkasaby/challenge1-nginx:$SHA'
-                sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-nginx:latest'
+                sh 'SHA=$(cat /tmp/gitrev);docker push kareemelkasaby/challenge1-project:$SHA'
+                sh 'docker push kareemelkasaby/challenge1-project:latest'
+                sh 'SHA=$(cat /tmp/gitrev);docker push kareemelkasaby/challenge1-nginx:$SHA'
+                sh 'docker push kareemelkasaby/challenge1-nginx:latest'
 
             }
         }
