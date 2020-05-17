@@ -1,0 +1,44 @@
+---
+- hosts: ansibleLab
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - name: Add docker repo
+      shell:  'dnf config-manager \
+        --add-repo \
+        https://download.docker.com/linux/centos/docker-ce.repo'
+
+    - name: install docker
+      dnf: name=docker-ce-3:18.09.1-3.el7 state=latest
+
+    - name: start and enable docker
+      service:
+          name: docker
+          state: started
+          enabled: yes
+
+    - name: Download docker compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.23.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0440'
+
+    - name: copy file and set permissions
+      copy:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/local/bin/docker-compose
+        mode: a+x
+
+    - name: Create a symbolic link
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        owner: root
+        group: root
+        state: link
+    
+    # - name: unarchive
+    #   unarchive:
+    #     src: BakeHouse.zip
+    #     dest: /usr/share/nginx/html/
+    #     force: yes

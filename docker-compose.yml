@@ -1,0 +1,31 @@
+version: '3'
+
+services: 
+  
+  challenge1-project:
+    restart: always
+    build: 
+      context: ./challenge1-project
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./challenge1-project/static:/challenge1-app/static
+    env_file:
+      - ./.env
+    expose:
+      - "8000"
+  
+
+  redis:
+    image: 'redis:alpine'
+    
+
+  nginx:
+    restart: always
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./challenge1-project/static:/static
+    ports:
+      - '80:80'
+  
