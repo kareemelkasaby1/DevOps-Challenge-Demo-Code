@@ -26,6 +26,7 @@ pipeline {
                 /* groovylint-disable-next-line LineLength */
                 sh "sudo rsync -rv --update -e 'ssh -o StrictHostKeyChecking=no -i $DEPLOYKEY' ./* ec2-user@$DEVEC2IP:~/app"
                 sh "sudo scp -o StrictHostKeyChecking=no -i $DEPLOYKEY -p ./.env ec2-user@$DEVEC2IP:~/app"
+                /* groovylint-disable-next-line LineLength */
                 sh "sudo ssh -o StrictHostKeyChecking=no -i $DEPLOYKEY ec2-user@$DEVEC2IP 'cd ~/app;sudo docker-compose up --build -d;exit'"
 
                 // sh 'sleep 15'
