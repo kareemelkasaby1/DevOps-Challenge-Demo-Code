@@ -13,7 +13,7 @@ pipeline {
                 },
                 /* groovylint-disable-next-line SpaceAroundMapEntryColon */
                 'integration': {
-                    sh 'docker-compose up --build --no-start --force-recreate'
+                    sh 'docker-compose up -f ./docker-compose.yml.dev --build --no-start --force-recreate'
                 }
             }
         }
@@ -30,20 +30,25 @@ pipeline {
                 sh 'docker push kareemelkasaby/challenge1-project:latest'
                 sh 'SHA=$(cat /tmp/gitrev);docker push kareemelkasaby/challenge1-nginx:$SHA'
                 sh 'docker push kareemelkasaby/challenge1-nginx:latest'
-
             }
         }
-        // stage('deploy') {
-        //     steps {
-        //         /* groovylint-disable-next-line LineLength */
-        //         sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down);echo hi'"
-        //         /* groovylint-disable-next-line LineLength */
-        //         sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app;echo hi'"
-        //         /* groovylint-disable-next-line LineLength */
-        //         sh "sudo rsync -rv --update -e 'ssh -i $DEPLOYKEY' ./* ec2-user@52.34.4.128:~/app"
-        //         sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@52.34.4.128:~/app"
-        //         sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose up --build -d;exit'"
-        //     }
-        // }
+        stage('integrationTestAfterPush') {
+            steps {
+                sh 'docker-compose up --build --no-start --force-recreate'
+            }
+        }
+        stage('deploy') {
+            steps {
+                /* groovylint-disable-next-line LineLength */
+                sh "sudo ssh -i $DEPLOYKEY ec2-user@$EC2IP '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down);echo hi'"
+                /* groovylint-disable-next-line LineLength */
+                sh "sudo ssh -i $DEPLOYKEY ec2-user@$EC2IP '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app/challenge1-project/static;echo hi'"
+                /* groovylint-disable-next-line LineLength */
+                sh "sudo rsync -rv --update -e 'ssh -i $DEPLOYKEY' ./challenge1-project/static ec2-user@$EC2IP:~/app/challenge1-project/static"
+                sh "sudo scp -i $DEPLOYKEY -p ./docker-compose.yml ec2-user@$EC2IP:~/app"
+                sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@$EC2IP:~/app"
+                sh "sudo ssh -i $DEPLOYKEY ec2-user@$EC2IP 'cd ~/app;sudo docker-compose up --build -d;exit'"
+            }
+        }
     }
 }
