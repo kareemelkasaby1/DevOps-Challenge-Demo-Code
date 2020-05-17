@@ -1,7 +1,7 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
     /* groovylint-disable-next-line NoDef, UnusedVariable, VariableName, VariableTypeRequired */
-    def SHA = sh '$(git rev-parse HEAD)'
+    def SHA = 'sh '$(git rev-parse HEAD)''
     agent any
     stages {
         stage('tests') {
