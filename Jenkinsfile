@@ -22,12 +22,11 @@ pipeline {
             steps {
                 /* groovylint-disable-next-line LineLength */
                 sh 'SHA=$(git rev-parse HEAD);docker build -t kareemelkasaby/challenge1-project:$SHA -t kareemelkasaby/challenge1-project:latest -f ./challenge1-project/Dockerfile.prod ./challenge1-project'
-                sh "...
+                sh ...
                     SHA=$(git rev-parse HEAD)
                     /* groovylint-disable-next-line LineLength */
                     docker build -t kareemelkasaby/challenge1-nginx:$SHA -t kareemelkasaby/challenge1-nginx:latest -f ./nginx/Dockerfile.prod ./nginx
                     ...
-                    "
                 sh "echo '$DOCKERHUB_PASS' | docker login -u '$DOCKERHUB_USER' --password-stdin"
                 sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-project:$SHA'
                 sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-project:latest'
