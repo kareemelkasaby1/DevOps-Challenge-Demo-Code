@@ -13,7 +13,7 @@ pipeline {
                 },
                 /* groovylint-disable-next-line SpaceAroundMapEntryColon */
                 'integration': {
-                    sh 'docker-compose up -f ./docker-compose.yml.dev --build --no-start --force-recreate'
+                    sh 'docker-compose up -f ./docker-compose.yml.dev --build --no-start --force-rdecreate'
                 }
             }
         }

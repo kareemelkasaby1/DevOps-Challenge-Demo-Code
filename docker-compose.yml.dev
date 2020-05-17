@@ -4,7 +4,9 @@ services:
   
   challenge1-project:
     restart: always
-    image: 'kareemelkasaby/challenge1-project:latest'
+    build: 
+      context: ./challenge1-project
+      dockerfile: Dockerfile.dev
     volumes:
       - ./challenge1-project/static:/challenge1-app/static
     env_file:
@@ -19,7 +21,9 @@ services:
 
   nginx:
     restart: always
-    image: kareemelkasaby/challenge1-nginx:latest
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.dev
     volumes:
       - ./challenge1-project/static:/static
     ports:
