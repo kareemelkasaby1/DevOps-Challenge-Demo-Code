@@ -1,5 +1,7 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
+    /* groovylint-disable-next-line NoDef, UnusedVariable, VariableName, VariableTypeRequired */
+    def SHA = sh '$(git rev-parse HEAD)'
     agent any
     stages {
         stage('tests') {
@@ -17,20 +19,31 @@ pipeline {
             }
         }
 
-        stage('deploy') {
+        stage('beforeDeploy') {
             steps {
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down);echo hi'"
+                sh 'docker build -t kareemelkasaby/challenge1-project:$SHA kareemelkasaby/challenge1-project:latest -f ./challenge1-project/Dockerfile.prod ./challenge1-project'
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app;echo hi'"
-                /* groovylint-disable-next-line LineLength */
-                sh "sudo rsync -rv --update -e 'ssh -i $DEPLOYKEY' ./* ec2-user@52.34.4.128:~/app"
-                sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@52.34.4.128:~/app"
-                sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose up --build -d;exit'"
+                sh 'docker build -t kareemelkasaby/challenge1-nginx:$SHA kareemelkasaby/challenge1-nginx:latest -f ./nginx/Dockerfile.prod ./nginx'
+                sh 'echo '$DOCKERHUB_PASS' | docker login -u '$DOCKERHUB_USER' --password-stdin'
+                sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-project:$SHA'
+                sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-project:latest'
+                sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-nginx:$SHA'
+                sh 'docker push kareemelkasaby/kareemelkasaby/challenge1-nginx:latest'
 
-                // sh 'sleep 15'
-                // sh 'exit'
             }
         }
+        // stage('deploy') {
+        //     steps {
+        //         /* groovylint-disable-next-line LineLength */
+        //         sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ -d '/home/ec2-user/app' ] && (cd ~/app;sudo docker-compose down);echo hi'"
+        //         /* groovylint-disable-next-line LineLength */
+        //         sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 '[ ! -d '/home/ec2-user/app' ] && mkdir -p ~/app;echo hi'"
+        //         /* groovylint-disable-next-line LineLength */
+        //         sh "sudo rsync -rv --update -e 'ssh -i $DEPLOYKEY' ./* ec2-user@52.34.4.128:~/app"
+        //         sh "sudo scp -i $DEPLOYKEY -p ./.env ec2-user@52.34.4.128:~/app"
+        //         sh "sudo ssh -i $DEPLOYKEY ec2-user@52.34.4.128 'cd ~/app;sudo docker-compose up --build -d;exit'"
+        //     }
+        // }
     }
 }
