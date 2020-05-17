@@ -1,0 +1,27 @@
+version: '3'
+
+services: 
+  
+  challenge1-project:
+    restart: always
+    image: 'kareemelkasaby/challenge1-project:latest'
+    volumes:
+      - ./challenge1-project/static:/challenge1-app/static
+    env_file:
+      - ./.env
+    expose:
+      - "8000"
+  
+
+  redis:
+    image: 'redis:alpine'
+    
+
+  nginx:
+    restart: always
+    image: kareemelkasaby/challenge1-nginx:latest
+    volumes:
+      - ./challenge1-project/static:/static
+    ports:
+      - '80:80'
+  

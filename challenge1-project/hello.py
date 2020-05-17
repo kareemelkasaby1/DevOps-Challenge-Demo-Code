@@ -6,12 +6,15 @@ import tornado.web
 import os
 from sys import exit
 
+
+print(os.getenv("REDIS_PORT"))
 try:
     r = redis.Redis(
         host=os.getenv("REDIS_HOST"),
         port=int(os.getenv("REDIS_PORT")),
         db=int(os.getenv("REDIS_DB")),
     )
+    print(r)
     r.set("counter", 0)
 except ConnectionError:
     print("Redis server isn't running. Exiting...")
